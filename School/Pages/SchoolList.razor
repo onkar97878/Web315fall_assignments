@@ -1,0 +1,45 @@
+@page "/school" 
+
+
+<h1>School List</h1>
+
+<button class="btn btn-primary" @onclick="PopulateArray">List</button>
+<input type="number" min="0" max="@School.Count" @bind="@limit" @oninput="(ChangeEventArgs e) => HandleLimitChange(e.Value.ToString())" />
+
+
+@if (School.Count > 0)
+{
+    <ul>
+        @foreach (var sch in School.Take(limit))
+        {
+            <li>@sch</li>
+        }
+    </ul>
+}
+
+
+
+@code {
+    List<string> School = new List<string>();
+
+    int limit = 5;
+
+    private void PopulateArray()
+    {
+        School.Clear();
+
+        School.Add("Name");
+        School.Add("HeadName ");
+        School.Add("Established ");
+        School.Add("Area");
+        School.Add("Fees");
+    }
+
+    private void HandleLimitChange(string newValue)
+    {
+        if (int.TryParse(newValue, out int newLimit) && newLimit >= 0 && newLimit <= School.Count)
+        {
+            limit = newLimit;
+        }
+    }
+}
